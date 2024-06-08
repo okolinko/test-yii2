@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+  php:
+    image: 'defaultvalue/php:8.2.13-development'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    environment:
+      - ADDITIONAL_PATH=/usr/local/go/bin
+      - PHP_IDE_CONFIG=serverName=yii2-demo.loc
+  mailhog:
+    image: 'mailhog/mailhog:v1.0.1'
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mh-prod-yii2-demo-loc-http.rule=Host(`mh-prod-yii2-demo.loc`)
+      - traefik.http.routers.mh-prod-yii2-demo-loc-http.entrypoints=http
+      - traefik.http.services.mh-prod-yii2-demo-loc-http.loadbalancer.server.port=8025
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pma-prod-yii2-demo-loc-http.rule=Host(`pma-prod-yii2-demo.loc`)
+      - traefik.http.routers.pma-prod-yii2-demo-loc-http.entrypoints=http
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOSTS: mysql
+      PMA_USER: app_db_user
+      PMA_PASSWORD: somepassword666!
+      PMA_DATABASE: app_db
+      PMA_ABSOLUTE_URI: 'http://pma-prod-yii2-demo.loc/'
+    volumes:
+      - /sessions

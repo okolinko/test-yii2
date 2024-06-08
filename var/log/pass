@@ -1,0 +1,12 @@
+0: COMPOSER_VERSION=2
+MYSQL_ROOT_PASSWORD: root
+MYSQL_DATABASE: app_db
+MYSQL_USER: app_db_user
+MYSQL_PASSWORD: somepassword666
+0: ADDITIONAL_PATH=/usr/local/go/bin
+1: PHP_IDE_CONFIG=serverName=yii2-demo.com
+PMA_HOSTS: mysql
+PMA_USER: magento_user
+PMA_PASSWORD: somepassword666
+PMA_DATABASE: magento_db
+PMA_ABSOLUTE_URI: http://pma-prod-yii2-demo.com/
